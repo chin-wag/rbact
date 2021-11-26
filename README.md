@@ -39,7 +39,7 @@ With peewee your application needs to close connections explicitly. `adapter.cre
 ```python
 import peewee as pw
 from peewee_async import PooledPostgresqlDatabase, Manager
-from rbact import peewee as rbact_peewee, AsyncInspector
+from rbact import peewee_async as rbact_peewee, AsyncInspector
 
 db = PooledPostgresqlDatabase('my_app', user='postgres', password='secret',
                            host='10.1.0.9', port=5432)

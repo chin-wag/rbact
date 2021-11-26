@@ -11,7 +11,7 @@ with open(desc_file, "r", encoding="utf-8") as fh:
 setup(
     name='rbact',
     version='0.1.0',
-    packages=['rbact', 'rbact.peewee'],
+    packages=['rbact', 'rbact.peewee', 'rbact.peewee_async'],
     url='https://github.com/chin-wag/rbact',
     license='MIT',
     author='Svetlana Fedorishcheva',

@@ -10,9 +10,9 @@ A simple RBAC library with different ORM adapters
 
 - [Installation](#installation)
 - [Docs](#docs)
-  - [Peewee hello world](#Peewee-hello-world)
-  - [Peewee async example](#Peewee-async-example-with-a-connection-pool-and-model-extensions)
-  - [How it works?](#How-it-works?)
+  - [Peewee hello world](#peewee-hello-world)
+  - [Peewee async example](#peewee-async-example-with-a-connection-pool-and-model-extensions)
+  - [How it works?](#how-it-works)
 
 ## Installation
 ```

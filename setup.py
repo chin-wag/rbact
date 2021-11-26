@@ -18,6 +18,7 @@ setup(
     author_email='svetlanafedorishcheva99@gmail.com',
     description='Simple RBAC library',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     keywords=[
         "rbac",
         "auth",

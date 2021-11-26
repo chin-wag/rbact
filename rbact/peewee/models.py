@@ -1,6 +1,6 @@
 import peewee as pw
 
-from rbact.errors import InvalidModelError
+from rbact.errors import InvalidModelError, InvalidModelTypeError
 
 
 database_proxy = pw.DatabaseProxy()
@@ -34,9 +34,9 @@ class UsersRoles(BaseModel):
     role_id = pw.ForeignKeyField(Roles)
 
 
-class PermRules(BaseModel):
+class Rules(BaseModel):
     class Meta:
-        table_name = 'rbact_perm_rules'
+        table_name = 'rbact_rules'
     id = pw.AutoField(primary_key=True)
     role_id = pw.ForeignKeyField(Roles)
     obj = pw.TextField()
@@ -45,29 +45,34 @@ class PermRules(BaseModel):
 
 class ModelsLoader:
     def __init__(self, db: pw.Database,
-                 users_model: pw.Model = None,
-                 roles_model: pw.Model = None,
-                 users_roles_model: pw.Model = None,
-                 perm_rules_model: pw.Model = None):
-        self.users = self.roles = self.users_roles = self.perm_rules = None
+                 users_model=None,
+                 roles_model=None,
+                 users_roles_model=None,
+                 rules_model=None):
+        self.users = self.roles = self.users_roles = self.rules = None
 
-        self._check_tables(users_model, roles_model, users_roles_model, perm_rules_model)
+        self._check_tables(users_model, roles_model, users_roles_model, rules_model)
 
         database_proxy.initialize(db)
 
-    def _check_tables(self, users_model, roles_model, users_roles_model, perm_rules_model):
+    def _check_tables(self, users_model, roles_model, users_roles_model, rules_model):
         self._check_table(users_model, Users, 'users')
         self._check_table(roles_model, Roles, 'roles')
         self._check_table(users_roles_model, UsersRoles, 'users_roles')
-        self._check_table(perm_rules_model, PermRules, 'perm_rules')
+        self._check_table(rules_model, Rules, 'rules')
 
     def _check_table(self, custom_model, default_model, class_model):
-        if custom_model is not None:
-            for f in default_model._meta.fields:
-                if f == 'id':
-                    continue
-                if f not in custom_model._meta.fields:
-                    raise InvalidModelError(custom_model, f)
-            setattr(self, class_model, custom_model)
-        else:
+        if custom_model is None:
             setattr(self, class_model, default_model)
+            return
+
+        if not issubclass(custom_model, pw.Model):
+            raise InvalidModelTypeError(custom_model, 'peewee')
+
+        for f in default_model._meta.fields:
+            if f == 'id':
+                continue
+            if f not in custom_model._meta.fields:
+                raise InvalidModelError(custom_model, f)
+
+        setattr(self, class_model, custom_model)

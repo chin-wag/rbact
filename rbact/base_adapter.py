@@ -15,7 +15,7 @@ class AsyncBaseAdapter(ABC):
         pass
 
     @abstractmethod
-    def _create_tables(self):
+    def create_tables(self):
         pass
 
 
@@ -33,5 +33,5 @@ class BaseAdapter(ABC):
         pass
 
     @abstractmethod
-    def _create_tables(self):
+    def create_tables(self):
         pass

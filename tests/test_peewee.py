@@ -8,11 +8,12 @@ def test_inspector_with_peewee_adapter():
     db = connect('sqlite:///:memory:')
 
     adapter = rbact_peewee.PeeweeAdapter(db)
+    adapter.create_tables()
 
     rbact_peewee.Users.create(login='user1', id=1)
     rbact_peewee.Roles.create(name='role1', id=1)
     rbact_peewee.UsersRoles.create(user_id=1, role_id=1)
-    rbact_peewee.PermRules.create(role_id=1, obj='resource1', act='read')
+    rbact_peewee.Rules.create(role_id=1, obj='resource1', act='read')
 
     inspector = Inspector(adapter)
     res = inspector.has_access('user1', 'resource1', 'read')
@@ -26,7 +27,7 @@ def test_inspector_with_peewee_adapter():
 
     rbact_peewee.Roles.create(name='role2', id=2)
     rbact_peewee.UsersRoles.create(user_id=1, role_id=2)
-    rbact_peewee.PermRules.create(role_id=2, obj='resource1', act='write')
+    rbact_peewee.Rules.create(role_id=2, obj='resource1', act='write')
 
     res = inspector.has_access('user1', 'resource1', 'write')
     assert res

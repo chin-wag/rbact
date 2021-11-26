@@ -12,7 +12,7 @@ class AsyncInspector:
         self.superuser = 'admin'
 
     async def has_access(self, user, obj, act):
-        roles = [{'perm_rules': getattr(ur, 'perm_rules', None), 'role': ur.role_id} for ur in await self.adapter.get_user_roles(user)]
+        roles = [{'rules': getattr(ur, 'rules', None), 'role': ur.role_id} for ur in await self.adapter.get_user_roles(user)]
 
         while len(roles) > 0:
             cur_role = roles.pop()
@@ -20,12 +20,12 @@ class AsyncInspector:
                 logger.debug(f'User {user}: access to {act} {obj} approved')
                 return True
 
-            if cur_role['perm_rules'] is not None and cur_role['perm_rules'].obj == obj and cur_role['perm_rules'].act == act:
+            if cur_role['rules'] is not None and cur_role['rules'].obj == obj and cur_role['rules'].act == act:
                 logger.debug(f'User {user}: access to {act} {obj} approved')
                 return True
 
             if cur_role['role'].parent is not None:
-                res = [{'perm_rules': ur, 'role': ur.role_id} for ur in await self.adapter.get_extended_role(cur_role['role'].parent)]
+                res = [{'rules': ur, 'role': ur.role_id} for ur in await self.adapter.get_extended_role(cur_role['role'].parent)]
                 roles.extend(res)
 
         logger.debug(f'User {user}: access to {act} {obj} denied')
@@ -38,7 +38,7 @@ class Inspector:
         self.superuser = 'admin'
 
     def has_access(self, user, obj, act):
-        roles = [{'perm_rules': getattr(ur, 'perm_rules', None), 'role': ur.role_id} for ur in self.adapter.get_user_roles(user)]
+        roles = [{'rules': getattr(ur, 'rules', None), 'role': ur.role_id} for ur in self.adapter.get_user_roles(user)]
 
         while len(roles) > 0:
             cur_role = roles.pop()
@@ -46,12 +46,12 @@ class Inspector:
                 logger.debug(f'User {user}: access to {act} {obj} approved')
                 return True
 
-            if cur_role['perm_rules'] is not None and cur_role['perm_rules'].obj == obj and cur_role['perm_rules'].act == act:
+            if cur_role['rules'] is not None and cur_role['rules'].obj == obj and cur_role['rules'].act == act:
                 logger.debug(f'User {user}: access to {act} {obj} approved')
                 return True
 
             if cur_role['role'].parent is not None:
-                res = [{'perm_rules': ur, 'role': ur.role_id} for ur in self.adapter.get_extended_role(cur_role['role'].parent)]
+                res = [{'rules': ur, 'role': ur.role_id} for ur in self.adapter.get_extended_role(cur_role['role'].parent)]
                 roles.extend(res)
 
         logger.debug(f'User {user}: access to {act} {obj} denied')

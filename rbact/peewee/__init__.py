@@ -1,4 +1,4 @@
-from .models import ModelsLoader, Users, Roles, UsersRoles, PermRules
+from .models import ModelsLoader, Users, Roles, UsersRoles, Rules
 from .peewee_adapter import AsyncPeeweeAdapter, PeeweeAdapter
 
 __all__ = [
@@ -8,5 +8,5 @@ __all__ = [
     'Users',
     'Roles',
     'UsersRoles',
-    'PermRules'
+    'Rules'
 ]

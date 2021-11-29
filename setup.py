@@ -9,14 +9,13 @@ with open(desc_file, "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='rbact',
-    version='0.1.0',
-    packages=['rbact', 'rbact.peewee', 'rbact.peewee_async'],
-    url='https://github.com/chin-wag/rbact',
-    license='MIT',
-    author='Svetlana Fedorishcheva',
-    author_email='svetlanafedorishcheva99@gmail.com',
-    description='Simple RBAC library',
+    name="rbact",
+    packages=["rbact", "rbact.peewee", "rbact.peewee_async"],
+    url="https://github.com/chin-wag/rbact",
+    license="MIT",
+    author="Svetlana Fedorishcheva",
+    author_email="svetlanafedorishcheva99@gmail.com",
+    description="Simple RBAC library",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=[

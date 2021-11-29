@@ -6,7 +6,9 @@ from rbact.peewee import ModelsLoader
 
 
 class AsyncPeeweeAdapter(AsyncBaseAdapter):
-    def __init__(self, db_manager: peewee_async.Manager, models_loader: ModelsLoader = None):
+    def __init__(
+        self, db_manager: peewee_async.Manager, models_loader: ModelsLoader = None
+    ):
         if models_loader is None:
             models_loader = ModelsLoader(db_manager.database)
 
@@ -27,10 +29,16 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
         if user is None:
             return []
 
-        q = (self.users_roles
-             .select(self.users_roles, self.rules)
-             .join(self.rules, pw.JOIN.LEFT_OUTER, on=(self.users_roles.role_id == self.rules.role_id), attr='rules')
-             .where(self.users_roles.user_id == user))
+        q = (
+            self.users_roles.select(self.users_roles, self.rules)
+            .join(
+                self.rules,
+                pw.JOIN.LEFT_OUTER,
+                on=(self.users_roles.role_id == self.rules.role_id),
+                attr="rules",
+            )
+            .where(self.users_roles.user_id == user)
+        )
 
         return await self.db_manager.execute(q)
 
@@ -41,4 +49,6 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
 
     def create_tables(self):
         with self.db_manager.allow_sync():
-            self.db_manager.database.create_tables([self.users, self.roles, self.users_roles, self.rules])
+            self.db_manager.database.create_tables(
+                [self.users, self.roles, self.users_roles, self.rules]
+            )

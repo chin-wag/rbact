@@ -13,22 +13,25 @@ class BaseModel(pw.Model):
 
 class Users(BaseModel):
     class Meta:
-        table_name = 'rbact_users'
+        table_name = "rbact_users"
+
     id = pw.AutoField(primary_key=True)
     login = pw.TextField()
 
 
 class Roles(BaseModel):
     class Meta:
-        table_name = 'rbact_roles'
+        table_name = "rbact_roles"
+
     id = pw.AutoField(primary_key=True)
     name = pw.TextField()
-    parent = pw.ForeignKeyField('self', null=True)
+    parent = pw.ForeignKeyField("self", null=True)
 
 
 class UsersRoles(BaseModel):
     class Meta:
-        table_name = 'rbact_users_roles'
+        table_name = "rbact_users_roles"
+
     id = pw.AutoField(primary_key=True)
     user_id = pw.ForeignKeyField(Users)
     role_id = pw.ForeignKeyField(Roles)
@@ -36,7 +39,8 @@ class UsersRoles(BaseModel):
 
 class Rules(BaseModel):
     class Meta:
-        table_name = 'rbact_rules'
+        table_name = "rbact_rules"
+
     id = pw.AutoField(primary_key=True)
     role_id = pw.ForeignKeyField(Roles)
     obj = pw.TextField()
@@ -44,11 +48,14 @@ class Rules(BaseModel):
 
 
 class ModelsLoader:
-    def __init__(self, db: pw.Database,
-                 users_model=None,
-                 roles_model=None,
-                 users_roles_model=None,
-                 rules_model=None):
+    def __init__(
+        self,
+        db: pw.Database,
+        users_model=None,
+        roles_model=None,
+        users_roles_model=None,
+        rules_model=None,
+    ):
         self.users = self.roles = self.users_roles = self.rules = None
 
         self._check_tables(users_model, roles_model, users_roles_model, rules_model)
@@ -56,10 +63,10 @@ class ModelsLoader:
         database_proxy.initialize(db)
 
     def _check_tables(self, users_model, roles_model, users_roles_model, rules_model):
-        self._check_table(users_model, Users, 'users')
-        self._check_table(roles_model, Roles, 'roles')
-        self._check_table(users_roles_model, UsersRoles, 'users_roles')
-        self._check_table(rules_model, Rules, 'rules')
+        self._check_table(users_model, Users, "users")
+        self._check_table(roles_model, Roles, "roles")
+        self._check_table(users_roles_model, UsersRoles, "users_roles")
+        self._check_table(rules_model, Rules, "rules")
 
     def _check_table(self, custom_model, default_model, class_model):
         if custom_model is None:
@@ -67,10 +74,10 @@ class ModelsLoader:
             return
 
         if not issubclass(custom_model, pw.Model):
-            raise InvalidModelTypeError(custom_model, 'peewee')
+            raise InvalidModelTypeError(custom_model, "peewee")
 
         for f in default_model._meta.fields:
-            if f == 'id':
+            if f == "id":
                 continue
             if f not in custom_model._meta.fields:
                 raise InvalidModelError(custom_model, f)

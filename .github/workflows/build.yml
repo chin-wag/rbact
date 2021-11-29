@@ -28,8 +28,8 @@ jobs:
         pip install -r requirements_tests.txt
     - name: Run tests
       run: |
-        if [[ "$OSTYPE" == "darwin"* ]];
-          then PYTHONPATH=${PYTHONPATH}:.
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          PYTHONPATH=${PYTHONPATH}:.
         else
           set PYTHONPATH=%PYTHONPATH%;.
         fi

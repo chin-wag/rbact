@@ -27,13 +27,7 @@ jobs:
       run: |
         pip install -r requirements_tests.txt
     - name: Run tests
-      run: |
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-          PYTHONPATH=${PYTHONPATH}:. pytest tests/
-        else
-          set PYTHONPATH=%PYTHONPATH%;.
-          pytest tests/
-        fi
+      run: python -m pytest tests/
 
   lint:
     name: Run Linters

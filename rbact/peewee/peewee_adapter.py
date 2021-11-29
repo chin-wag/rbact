@@ -26,10 +26,16 @@ class PeeweeAdapter(BaseAdapter):
         if user is None:
             return []
 
-        q = (self.users_roles
-             .select(self.users_roles, self.rules)
-             .join(self.rules, pw.JOIN.LEFT_OUTER, on=(self.users_roles.role_id == self.rules.role_id), attr='rules')
-             .where(self.users_roles.user_id == user))
+        q = (
+            self.users_roles.select(self.users_roles, self.rules)
+            .join(
+                self.rules,
+                pw.JOIN.LEFT_OUTER,
+                on=(self.users_roles.role_id == self.rules.role_id),
+                attr="rules",
+            )
+            .where(self.users_roles.user_id == user)
+        )
 
         return q
 

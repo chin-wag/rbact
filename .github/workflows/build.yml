@@ -29,11 +29,11 @@ jobs:
     - name: Run tests
       run: |
         if [[ "$OSTYPE" == "darwin"* ]]; then
-          PYTHONPATH=${PYTHONPATH}:.
+          PYTHONPATH=${PYTHONPATH}:. pytest tests/
         else
           set PYTHONPATH=%PYTHONPATH%;.
+          pytest tests/
         fi
-        pytest tests/
 
   lint:
     name: Run Linters

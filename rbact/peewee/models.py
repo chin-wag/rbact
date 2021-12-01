@@ -33,8 +33,8 @@ class UsersRoles(BaseModel):
         table_name = "rbact_users_roles"
 
     id = pw.AutoField(primary_key=True)
-    user_id = pw.ForeignKeyField(Users)
-    role_id = pw.ForeignKeyField(Roles)
+    user = pw.ForeignKeyField(Users)
+    role = pw.ForeignKeyField(Roles)
 
 
 class Rules(BaseModel):
@@ -42,7 +42,7 @@ class Rules(BaseModel):
         table_name = "rbact_rules"
 
     id = pw.AutoField(primary_key=True)
-    role_id = pw.ForeignKeyField(Roles)
+    role = pw.ForeignKeyField(Roles)
     obj = pw.TextField()
     act = pw.TextField()
 

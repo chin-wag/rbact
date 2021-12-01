@@ -1,5 +1,14 @@
 # Semantic Versioning Changelog
 
+## [1.0.1](https://github.com/chin-wag/rbact/compare/v1.0.0...v1.0.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* model's fields naming ([fdff0f1](https://github.com/chin-wag/rbact/commit/fdff0f1b89e7e4a8698e2b5252b63b5b2fa3885d))
+* model's fields naming ([308cd6f](https://github.com/chin-wag/rbact/commit/308cd6ff4255ccc625b9b205068c62a1aa17807b))
+* model's fields naming ([38b4544](https://github.com/chin-wag/rbact/commit/38b4544593aac588122ba1198d2d566af6c3c735))
+
 # 1.0.0 (2021-11-29)
 
 

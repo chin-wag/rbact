@@ -37,7 +37,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
                 on=(self.users_roles.role == self.rules.role),
                 attr="rules",
             )
-            .where(self.users_roles.user_id == user)
+            .where(self.users_roles.user == user)
         )
 
         return await self.db_manager.execute(q)

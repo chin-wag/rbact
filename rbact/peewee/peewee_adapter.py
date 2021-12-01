@@ -34,7 +34,7 @@ class PeeweeAdapter(BaseAdapter):
                 on=(self.users_roles.role == self.rules.role),
                 attr="rules",
             )
-            .where(self.users_roles.user_id == user)
+            .where(self.users_roles.user == user)
         )
 
         return q

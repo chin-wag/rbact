@@ -26,7 +26,7 @@ def test_inspector_with_peewee_adapter():
     assert not res
 
     rbact_peewee.Roles.create(name="role2", id=2)
-    rbact_peewee.UsersRoles.create(user_id=1, role=2)
+    rbact_peewee.UsersRoles.create(user=1, role=2)
     rbact_peewee.Rules.create(role=2, obj="resource1", act="write")
 
     res = inspector.has_access("user1", "resource1", "write")

@@ -1,9 +1,4 @@
-import logging
-
 from .base_adapter import AsyncBaseAdapter, BaseAdapter
-
-
-logger = logging.getLogger(__name__)
 
 
 class AsyncInspector:
@@ -20,7 +15,6 @@ class AsyncInspector:
         while len(roles) > 0:
             cur_role = roles.pop()
             if cur_role["role"].name == self.superuser:
-                logger.debug(f"User {user}: access to {act} {obj} approved")
                 return True
 
             if (
@@ -28,7 +22,6 @@ class AsyncInspector:
                 and cur_role["rules"].obj == obj
                 and cur_role["rules"].act == act
             ):
-                logger.debug(f"User {user}: access to {act} {obj} approved")
                 return True
 
             if cur_role["role"].parent is not None:
@@ -40,7 +33,6 @@ class AsyncInspector:
                 ]
                 roles.extend(res)
 
-        logger.debug(f"User {user}: access to {act} {obj} denied")
         return False
 
 
@@ -51,14 +43,13 @@ class Inspector:
 
     def has_access(self, user, obj, act):
         roles = [
-            {"rules": getattr(ur, "rules", None), "role": ur.role_id}
+            {"rules": getattr(ur, "rules", None), "role": ur.role}
             for ur in self.adapter.get_user_roles(user)
         ]
 
         while len(roles) > 0:
             cur_role = roles.pop()
             if cur_role["role"].name == self.superuser:
-                logger.debug(f"User {user}: access to {act} {obj} approved")
                 return True
 
             if (
@@ -66,15 +57,13 @@ class Inspector:
                 and cur_role["rules"].obj == obj
                 and cur_role["rules"].act == act
             ):
-                logger.debug(f"User {user}: access to {act} {obj} approved")
                 return True
 
             if cur_role["role"].parent is not None:
                 res = [
-                    {"rules": ur, "role": ur.role_id}
+                    {"rules": ur, "role": ur.role}
                     for ur in self.adapter.get_extended_role(cur_role["role"].parent)
                 ]
                 roles.extend(res)
 
-        logger.debug(f"User {user}: access to {act} {obj} denied")
         return False

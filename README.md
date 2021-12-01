@@ -16,7 +16,12 @@ A simple RBAC library with different ORM adapters
 
 ## Installation
 ```
+# Basic
 pip install rbact
+
+# With adapter's dependencies
+pip install rbact[peewee]
+pip install rbact[peewee_async]
 ```
 
 ## Docs

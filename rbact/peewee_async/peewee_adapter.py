@@ -34,7 +34,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
             .join(
                 self.rules,
                 pw.JOIN.LEFT_OUTER,
-                on=(self.users_roles.role_id == self.rules.role_id),
+                on=(self.users_roles.role == self.rules.role),
                 attr="rules",
             )
             .where(self.users_roles.user_id == user)
@@ -43,7 +43,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
         return await self.db_manager.execute(q)
 
     async def get_extended_role(self, role):
-        q = self.rules.select().where(self.rules.role_id == role)
+        q = self.rules.select().where(self.rules.role == role)
 
         return await self.db_manager.execute(q)
 

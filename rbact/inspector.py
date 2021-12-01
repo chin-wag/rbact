@@ -8,7 +8,7 @@ class AsyncInspector:
 
     async def has_access(self, user, obj, act):
         roles = [
-            {"rules": getattr(ur, "rules", None), "role": ur.role_id}
+            {"rules": getattr(ur, "rules", None), "role": ur.role}
             for ur in await self.adapter.get_user_roles(user)
         ]
 
@@ -26,7 +26,7 @@ class AsyncInspector:
 
             if cur_role["role"].parent is not None:
                 res = [
-                    {"rules": ur, "role": ur.role_id}
+                    {"rules": ur, "role": ur.role}
                     for ur in await self.adapter.get_extended_role(
                         cur_role["role"].parent
                     )

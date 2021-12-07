@@ -7,7 +7,7 @@ class AsyncBaseAdapter(ABC):
         pass
 
     @abstractmethod
-    async def get_user_zero_depth_roles(self, login):
+    async def get_user_roles(self, login):
         pass
 
     @abstractmethod
@@ -25,7 +25,7 @@ class BaseAdapter(ABC):
         pass
 
     @abstractmethod
-    def get_user_zero_depth_roles(self, login):
+    def get_user_roles(self, login):
         pass
 
     @abstractmethod

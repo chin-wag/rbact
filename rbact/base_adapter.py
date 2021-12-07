@@ -7,11 +7,15 @@ class AsyncBaseAdapter(ABC):
         pass
 
     @abstractmethod
+    async def get_user_zero_depth_rules(self, login):
+        pass
+
+    @abstractmethod
     async def get_user_zero_depth_roles(self, login):
         pass
 
     @abstractmethod
-    async def get_extended_role(self, role):
+    async def get_extended_rules(self, role):
         pass
 
     @abstractmethod
@@ -25,11 +29,15 @@ class BaseAdapter(ABC):
         pass
 
     @abstractmethod
+    def get_user_zero_depth_rules(self, login):
+        pass
+
+    @abstractmethod
     def get_user_zero_depth_roles(self, login):
         pass
 
     @abstractmethod
-    def get_extended_role(self, role):
+    def get_extended_rules(self, role):
         pass
 
     @abstractmethod

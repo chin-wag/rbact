@@ -81,3 +81,29 @@ def test_inspector_with_peewee_adapter_get_user_rules():
     res = inspector.get_user_rules("user1")
     assert len(res["resource1"]) == 2
     assert len(res["resource2"]) == 2
+
+
+def test_inspector_with_peewee_adapter_get_user_roles():
+    db = connect("sqlite:///:memory:")
+
+    adapter = rbact_peewee.PeeweeAdapter(db)
+    adapter.create_tables()
+
+    rbact_peewee.Users.create(login="user1", id=1)
+    rbact_peewee.Roles.create(name="role1", id=1)
+    rbact_peewee.UsersRoles.create(user=1, role=1)
+    rbact_peewee.Rules.create(role=1, obj="resource1", act="read")
+
+    inspector = Inspector(adapter)
+
+    res = inspector.get_user_roles("user1")
+    assert len(res) == 1
+    assert "role1" in res
+
+    # nested roles
+    rbact_peewee.Roles.create(name="role2", id=2)
+    rbact_peewee.Roles.create(name="role3", id=3, parent=2)
+    rbact_peewee.Roles.create(name="role4", id=4, parent=3)
+    rbact_peewee.UsersRoles.create(user=1, role=4)
+    res = inspector.get_user_roles("user1")
+    assert len(res) == 4

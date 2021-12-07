@@ -24,7 +24,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
         except pw.DoesNotExist:
             pass
 
-    async def get_user_zero_depth_roles(self, login):
+    async def get_user_zero_depth_rules(self, login):
         user = await self._get_user(login)
         if user is None:
             return []
@@ -42,7 +42,18 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
 
         return await self.db_manager.execute(q)
 
-    async def get_extended_role(self, role):
+    async def get_user_zero_depth_roles(self, login):
+        user = await self._get_user(login)
+        if user is None:
+            return []
+
+        q = self.users_roles.select(self.users_roles, self.rules).where(
+            self.users_roles.user == user
+        )
+
+        return await self.db_manager.execute(q)
+
+    async def get_extended_rules(self, role):
         q = self.rules.select().where(self.rules.role == role)
 
         return await self.db_manager.execute(q)

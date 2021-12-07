@@ -21,7 +21,7 @@ class PeeweeAdapter(BaseAdapter):
         except pw.DoesNotExist:
             pass
 
-    def get_user_roles(self, login):
+    def get_user_zero_depth_roles(self, login):
         user = self._get_user(login)
         if user is None:
             return []

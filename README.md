@@ -13,8 +13,6 @@ A simple RBAC library with different ORM adapters
   - [Peewee hello world](#peewee-hello-world)
   - [Peewee async example](#peewee-async-example-with-a-connection-pool-and-model-extensions)
   - [How it works?](#how-it-works)
-  - [Superuser](#superuser)
-  - [Get all user rules](#get-all-user-rules)
 
 ## Installation
 ```
@@ -77,28 +75,16 @@ analyst, company_metrics, read
 employee, /api/write_task, write 
 ```
 
-### Superuser
+#### Superuser
 ```python
+from peewee import PostgresqlDatabase
 import rbact
 
-db = ...
+db = PostgresqlDatabase('my_app', user='postgres', password='secret',
+                           host='10.1.0.9', port=5432)
 
 adapter = rbact.peewee.PeeweeAdapter(db)
 inspector = rbact.Inspector(adapter)
 inspector.superuser = 'root'  # default value is admin
 inspector.superuser = None  # disable superuser
-```
-
-### Get all user rules
-```python
-import rbact
-
-db = ...
-
-adapter = rbact.peewee.PeeweeAdapter(db)
-inspector = rbact.Inspector(adapter)
-# list of tuples
-list_rules = inspector.get_user_rules('user', orient='list')
-# dict with resource key and list of actions value
-dict_rules = inspector.get_user_rules('user', orient='dict')
 ```

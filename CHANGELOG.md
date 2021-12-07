@@ -1,5 +1,12 @@
 # Semantic Versioning Changelog
 
+# [1.1.0](https://github.com/chin-wag/rbact/compare/v1.0.2...v1.1.0) (2021-12-07)
+
+
+### Features
+
+* add get_user_rules ([#5](https://github.com/chin-wag/rbact/issues/5)) ([36afec5](https://github.com/chin-wag/rbact/commit/36afec5d175524b5ac2dd2dddb8dc4516aaca8ce))
+
 ## [1.0.2](https://github.com/chin-wag/rbact/compare/v1.0.1...v1.0.2) (2021-12-07)
 
 

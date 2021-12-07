@@ -65,6 +65,20 @@ class AsyncInspector:
             return list(result)
         raise ValueError(f"Orient must be dict or list")
 
+    async def get_user_roles(self, user):
+        roles = [ur.role for ur in await self.adapter.get_user_zero_depth_roles(user)]
+        result = set()
+
+        while len(roles) > 0:
+            cur_role = roles.pop()
+            if cur_role.name is not None:
+                result.add(cur_role.name)
+
+            if cur_role.parent is not None:
+                roles.append(cur_role.parent)
+
+        return list(result)
+
 
 class Inspector:
     def __init__(self, adapter: BaseAdapter):

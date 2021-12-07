@@ -103,6 +103,7 @@ def test_inspector_with_peewee_adapter_get_user_roles():
     # nested roles
     rbact_peewee.Roles.create(name="role2", id=2)
     rbact_peewee.Roles.create(name="role3", id=3, parent=2)
-    rbact_peewee.UsersRoles.create(user=1, role=3)
+    rbact_peewee.Roles.create(name="role4", id=4, parent=3)
+    rbact_peewee.UsersRoles.create(user=1, role=4)
     res = inspector.get_user_roles("user1")
-    assert len(res) == 3
+    assert len(res) == 4

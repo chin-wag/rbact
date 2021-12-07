@@ -14,7 +14,7 @@ A simple RBAC library with different ORM adapters
   - [Peewee async example](#peewee-async-example-with-a-connection-pool-and-model-extensions)
   - [How it works?](#how-it-works)
   - [Superuser](#superuser)
-  - [Get all user rules/roles](#get-all-user-rules-roles)
+  - [Get all user rules/roles](#get-all-user-rulesroles)
 
 ## Installation
 ```

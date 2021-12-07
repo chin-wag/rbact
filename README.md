@@ -14,7 +14,7 @@ A simple RBAC library with different ORM adapters
   - [Peewee async example](#peewee-async-example-with-a-connection-pool-and-model-extensions)
   - [How it works?](#how-it-works)
   - [Superuser](#superuser)
-  - [Get all user rules](#get-all-user-rules)
+  - [Get all user rules/roles](#get-all-user-rules-roles)
 
 ## Installation
 ```
@@ -89,7 +89,7 @@ inspector.superuser = 'root'  # default value is admin
 inspector.superuser = None  # disable superuser
 ```
 
-### Get all user rules
+### Get all user rules/roles
 ```python
 import rbact
 
@@ -101,4 +101,8 @@ inspector = rbact.Inspector(adapter)
 list_rules = inspector.get_user_rules('user', orient='list')
 # dict with resource key and list of actions value
 dict_rules = inspector.get_user_rules('user', orient='dict')
+
+# list of roles
+roles = inspector.get_user_roles('user')
 ```
+

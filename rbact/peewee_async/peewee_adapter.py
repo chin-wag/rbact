@@ -24,7 +24,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
         except pw.DoesNotExist:
             pass
 
-    async def get_user_roles(self, login):
+    async def get_user_zero_depth_roles(self, login):
         user = await self._get_user(login)
         if user is None:
             return []

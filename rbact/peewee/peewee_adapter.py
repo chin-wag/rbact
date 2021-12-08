@@ -37,7 +37,7 @@ class PeeweeAdapter(BaseAdapter):
             .where(self.users_roles.user == user)
         )
 
-        return q
+        return q.execute()
 
     def get_user_zero_depth_roles(self, login):
         user = self._get_user(login)
@@ -48,12 +48,12 @@ class PeeweeAdapter(BaseAdapter):
             self.users_roles.user == user
         )
 
-        return q
+        return q.execute()
 
     def get_extended_rules(self, role):
         q = self.rules.select().where(self.rules.role == role)
 
-        return q
+        return q.execute()
 
     def create_tables(self):
         self.db.create_tables([self.users, self.roles, self.users_roles, self.rules])

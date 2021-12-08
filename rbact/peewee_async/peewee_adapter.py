@@ -47,7 +47,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
         if user is None:
             return []
 
-        q = self.users_roles.select(self.users_roles, self.rules).where(
+        q = self.users_roles.select(self.users_roles).where(
             self.users_roles.user == user
         )
 

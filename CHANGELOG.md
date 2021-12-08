@@ -1,5 +1,12 @@
 # Semantic Versioning Changelog
 
+## [1.2.1](https://github.com/chin-wag/rbact/compare/v1.2.0...v1.2.1) (2021-12-08)
+
+
+### Bug Fixes
+
+* removed unnecessary table in async get user roles ([#8](https://github.com/chin-wag/rbact/issues/8)) ([2443727](https://github.com/chin-wag/rbact/commit/244372792304de80952e8c43f2430468d06071fc))
+
 # [1.2.0](https://github.com/chin-wag/rbact/compare/v1.1.0...v1.2.0) (2021-12-07)
 
 

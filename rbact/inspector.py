@@ -35,6 +35,35 @@ class AsyncInspector:
 
         return False
 
+    async def get_first_role_with_access(self, user, obj, act):
+        roles = [
+            {"rules": getattr(ur, "rules", None), "role": ur.role}
+            for ur in await self.adapter.get_user_zero_depth_rules(user)
+        ]
+
+        while len(roles) > 0:
+            cur_role = roles.pop()
+            if cur_role["role"].name == self.superuser:
+                return cur_role["role"].name
+
+            if (
+                cur_role["rules"] is not None
+                and cur_role["rules"].obj == obj
+                and cur_role["rules"].act == act
+            ):
+                return cur_role["role"].name
+
+            if cur_role["role"].parent is not None:
+                res = [
+                    {"rules": ur, "role": ur.role}
+                    for ur in await self.adapter.get_extended_rules(
+                        cur_role["role"].parent
+                    )
+                ]
+                roles.extend(res)
+
+        return None
+
     async def get_user_rules(self, user, orient="dict"):
         roles = [
             {"rules": getattr(ur, "rules", None), "role": ur.role}
@@ -111,6 +140,33 @@ class Inspector:
                 roles.extend(res)
 
         return False
+
+    def get_first_role_with_access(self, user, obj, act):
+        roles = [
+            {"rules": getattr(ur, "rules", None), "role": ur.role}
+            for ur in self.adapter.get_user_zero_depth_rules(user)
+        ]
+
+        while len(roles) > 0:
+            cur_role = roles.pop()
+            if cur_role["role"].name == self.superuser:
+                return cur_role["role"].name
+
+            if (
+                cur_role["rules"] is not None
+                and cur_role["rules"].obj == obj
+                and cur_role["rules"].act == act
+            ):
+                return cur_role["role"].name
+
+            if cur_role["role"].parent is not None:
+                res = [
+                    {"rules": ur, "role": ur.role}
+                    for ur in self.adapter.get_extended_rules(cur_role["role"].parent)
+                ]
+                roles.extend(res)
+
+        return None
 
     def get_user_rules(self, user, orient="dict"):
         roles = [

@@ -63,7 +63,7 @@ async def main():
     adapter = rbact_peewee.AsyncPeeweeAdapter(db_manager, models_loader=loader)
     inspector = AsyncInspector(adapter)
     has_access = await inspector.has_access('user', 'resource', 'write')
-    role_with_access = await inspector.get_first_role_with_access('user', 'resource', 'write')
+    role_with_access = await inspector.get_first_role_with_access('user', 'resource', 'read')
 ```
 
 ### How it works?

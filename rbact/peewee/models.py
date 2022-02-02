@@ -26,6 +26,9 @@ class Roles(BaseModel):
     id = pw.AutoField(primary_key=True)
     name = pw.TextField()
     parent = pw.ForeignKeyField("self", null=True)
+    is_rbact_fake = pw.BooleanField(
+        default=False, help_text="Optional field for mode with fakes"
+    )
 
 
 class UsersRoles(BaseModel):
@@ -55,8 +58,10 @@ class ModelsLoader:
         roles_model=None,
         users_roles_model=None,
         rules_model=None,
+        with_fake_roles=False,
     ):
         self.users = self.roles = self.users_roles = self.rules = None
+        self.with_fake_roles = with_fake_roles
 
         self._check_tables(users_model, roles_model, users_roles_model, rules_model)
 

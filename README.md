@@ -107,3 +107,33 @@ dict_rules = inspector.get_user_rules('user', orient='dict')
 roles = inspector.get_user_roles('user')
 ```
 
+
+
+### Fake roles
+Fake role is an intermediate role that mustn't be assigned to any user. All its rules will be used, but you can't get this role by `get_user_roles` or `get_first_role_with_access` methods
+```python
+import rbact.peewee as rbact_peewee
+from rbact import Inspector
+
+db = ...
+
+loader = rbact_peewee.ModelsLoader(db, with_fake_roles=True)
+adapter = rbact_peewee.PeeweeAdapter(db, models_loader=loader)
+adapter.create_tables()
+
+rbact_peewee.Roles.create(name="development_department", id=1, is_rbact_fake=True)
+rbact_peewee.Rules.create(role=1, obj="docs", act="read")
+rbact_peewee.Roles.create(name="software_developer", id=2, parent=1)
+rbact_peewee.Rules.create(role=2, obj="code", act="write")
+
+rbact_peewee.Users.create(login="user1", id=1)
+rbact_peewee.UsersRoles.create(user=1, role=2)
+
+rbact_peewee.Roles.create(name="project_manager", id=3)
+
+# all this users can read docs due to root fake role
+
+inspector = Inspector(adapter)
+result = inspector.get_user_roles('user1')  # ["software_developer"]
+role_with_access = inspector.get_first_role_with_access('user1', 'docs', 'read')  # software_developer
+```

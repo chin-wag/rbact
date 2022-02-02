@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class AsyncBaseAdapter(ABC):
+    def __init__(self):
+        self.with_fake_roles = False
+
     @abstractmethod
     async def _get_user(self, login):
         pass
@@ -24,6 +27,9 @@ class AsyncBaseAdapter(ABC):
 
 
 class BaseAdapter(ABC):
+    def __init__(self):
+        self.with_fake_roles = False
+
     @abstractmethod
     def _get_user(self, login):
         pass

@@ -17,6 +17,7 @@ class AsyncPeeweeAdapter(AsyncBaseAdapter):
         self.users_roles = models_loader.users_roles
         self.rules = models_loader.rules
         self.db_manager = db_manager
+        self.with_fake_roles = models_loader.with_fake_roles
 
     async def _get_user(self, login):
         try:

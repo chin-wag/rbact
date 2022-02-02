@@ -1,5 +1,7 @@
 from .base_adapter import AsyncBaseAdapter, BaseAdapter
 
+from .errors import UserHasFakeRoleError
+
 
 class AsyncInspector:
     def __init__(self, adapter: AsyncBaseAdapter):
@@ -25,6 +27,10 @@ class AsyncInspector:
                 return True
 
             if cur_role["role"].parent is not None:
+                children.setdefault(cur_role["role"].parent.name, []).append(
+                    cur_role["role"].name
+                )
+
                 res = [
                     {"rules": ur, "role": ur.role}
                     for ur in await self.adapter.get_extended_rules(
@@ -41,16 +47,34 @@ class AsyncInspector:
             for ur in await self.adapter.get_user_zero_depth_rules(user)
         ]
 
+        children = {}
+        fakes = {}
+
         while len(roles) > 0:
             cur_role = roles.pop()
             if cur_role["role"].name == self.superuser:
                 return cur_role["role"].name
+
+            fakes[cur_role["role"].name] = cur_role["role"].is_rbact_fake
 
             if (
                 cur_role["rules"] is not None
                 and cur_role["rules"].obj == obj
                 and cur_role["rules"].act == act
             ):
+                if self.adapter.with_fake_roles:
+                    roles_with_access = [cur_role["role"].name]
+
+                    while len(roles_with_access) > 0:
+                        inner_cur = roles_with_access.pop()
+                        if fakes[inner_cur]:
+                            children = children.get(inner_cur)
+                            if children is None:
+                                raise UserHasFakeRoleError(inner_cur)
+                            roles_with_access.extend(children)
+                        else:
+                            return inner_cur
+                    return None
                 return cur_role["role"].name
 
             if cur_role["role"].parent is not None:
@@ -100,7 +124,9 @@ class AsyncInspector:
 
         while len(roles) > 0:
             cur_role = roles.pop()
-            if cur_role.name is not None:
+            if cur_role.name is not None and (
+                not self.adapter.with_fake_roles or not cur_role.is_rbact_fake
+            ):
                 result.add(cur_role.name)
 
             if cur_role.parent is not None:
@@ -147,19 +173,42 @@ class Inspector:
             for ur in self.adapter.get_user_zero_depth_rules(user)
         ]
 
+        children = {}
+        fakes = {}
+
         while len(roles) > 0:
             cur_role = roles.pop()
             if cur_role["role"].name == self.superuser:
                 return cur_role["role"].name
+
+            fakes[cur_role["role"].name] = cur_role["role"].is_rbact_fake
 
             if (
                 cur_role["rules"] is not None
                 and cur_role["rules"].obj == obj
                 and cur_role["rules"].act == act
             ):
+                if self.adapter.with_fake_roles:
+                    roles_with_access = [cur_role["role"].name]
+
+                    while len(roles_with_access) > 0:
+                        inner_cur = roles_with_access.pop()
+                        if fakes[inner_cur]:
+                            children = children.get(inner_cur)
+                            if children is None:
+                                raise UserHasFakeRoleError(inner_cur)
+                            roles_with_access.extend(children)
+                        else:
+                            return inner_cur
+                    return None
+
                 return cur_role["role"].name
 
             if cur_role["role"].parent is not None:
+                children.setdefault(cur_role["role"].parent.name, []).append(
+                    cur_role["role"].name
+                )
+
                 res = [
                     {"rules": ur, "role": ur.role}
                     for ur in self.adapter.get_extended_rules(cur_role["role"].parent)
@@ -202,7 +251,9 @@ class Inspector:
 
         while len(roles) > 0:
             cur_role = roles.pop()
-            if cur_role.name is not None:
+            if cur_role.name is not None and (
+                not self.adapter.with_fake_roles or not cur_role.is_rbact_fake
+            ):
                 result.add(cur_role.name)
 
             if cur_role.parent is not None:

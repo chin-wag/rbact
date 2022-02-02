@@ -14,6 +14,7 @@ class PeeweeAdapter(BaseAdapter):
         self.users_roles = models_loader.users_roles
         self.rules = models_loader.rules
         self.db = db
+        self.with_fake_roles = models_loader.with_fake_roles
 
     def _get_user(self, login):
         try:

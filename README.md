@@ -123,7 +123,7 @@ adapter.create_tables()
 
 rbact_peewee.Roles.create(name="development_department", id=1, is_rbact_fake=True)
 rbact_peewee.Rules.create(role=1, obj="docs", act="read")
-rbact_peewee.Roles.create(name="software_developer", id=2)
+rbact_peewee.Roles.create(name="software_developer", id=2, parent=1)
 rbact_peewee.Rules.create(role=1, obj="code", act="write")
 
 rbact_peewee.Users.create(login="user1", id=1)

@@ -186,8 +186,6 @@ def test_inspector_with_peewee_adapter_get_user_roles():
 
     inspector = Inspector(adapter)
 
-    temp = rbact_peewee.Roles.select().dicts()
-
     res = inspector.get_user_roles("user1")
     assert len(res) == 1
     assert "role1" in res

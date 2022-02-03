@@ -1,5 +1,12 @@
 # Semantic Versioning Changelog
 
+## [1.4.1](https://github.com/chin-wag/rbact/compare/v1.4.0...v1.4.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* bug with children in has_access ([#12](https://github.com/chin-wag/rbact/issues/12)) ([f6d871e](https://github.com/chin-wag/rbact/commit/f6d871ef92c02e7dd5e2c89bee130f30d18b393c))
+
 # [1.4.0](https://github.com/chin-wag/rbact/compare/v1.3.0...v1.4.0) (2022-02-02)
 
 

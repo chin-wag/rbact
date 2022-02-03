@@ -15,6 +15,7 @@ A simple RBAC library with different ORM adapters
   - [How it works?](#how-it-works)
   - [Superuser](#superuser)
   - [Get all user rules/roles](#get-all-user-rulesroles)
+  - [Fake roles](#fake-roles)
 
 ## Installation
 ```

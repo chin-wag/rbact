@@ -27,10 +27,6 @@ class AsyncInspector:
                 return True
 
             if cur_role["role"].parent is not None:
-                children.setdefault(cur_role["role"].parent.name, []).append(
-                    cur_role["role"].name
-                )
-
                 res = [
                     {"rules": ur, "role": ur.role}
                     for ur in await self.adapter.get_extended_rules(
@@ -78,6 +74,10 @@ class AsyncInspector:
                 return cur_role["role"].name
 
             if cur_role["role"].parent is not None:
+                children.setdefault(cur_role["role"].parent.name, []).append(
+                    cur_role["role"].name
+                )
+
                 res = [
                     {"rules": ur, "role": ur.role}
                     for ur in await self.adapter.get_extended_rules(
